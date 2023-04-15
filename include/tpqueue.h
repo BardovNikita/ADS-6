@@ -1,68 +1,68 @@
 // Copyright 2022 NNTU-CS
 #ifndef INCLUDE_TPQUEUE_H_
 #define INCLUDE_TPQUEUE_H_
+#include <cassert>
 
 template<typename T, int size>
 class TPQueue {
 private:
-  T* arr;
-  int sizeM;
-  int first, last;
-  int count;
-public:
-  TPQueue():sizeM(size), first(0), last(0), count(0) {
-    arr = new T[sizeM + 1];
+  T* items;
+  int MAXsize;
+  int HEAD, TAIL;
+  int counter;
+
+ public:
+  TPQueue(): MAXsize(size), HEAD(0), TAIL(0), counter(0) {
+    items = new T[MAXsize + 1];
   }
 
-  void push(const T& value) {
-    assert(count < sizeM);
-    if (count == 0) {
-      arr[last++] = value;
-      count++;
+  void push(const T& item) {
+    if (counter == 0) {
+      items[TAIL++] = item;
+      counter++;
     } else {
-      int i = last - 1;
-      bool flag = 0;
-      while (i >= first && value.prior > arr[i].prior) {
-        flag = 1;
-        arr[i + 1] = arr[i];
-        arr[i] = value;
+      int i = TAIL - 1;
+      bool flag = false;
+      while (i >= HEAD && item.prior > items[i].prior) {
+        flag = true;
+        items[i + 1] = items[i];
+        items[i] = item;
         i--;
       }
-      if (flag == 0) {
-        arr[last] = value;
+      if (!flag) {
+        items[TAIL] = item;
       }
-      last++;
-      count++;
+      TAIL++;
+      counter++;
     }
-    if (last > sizeM) {
-      last -= sizeM + 1;
+    if (TAIL > MAXsize) {
+      TAIL -= MAXsize + 1;
     }
   }
 
   const T& pop() {
-    assert(count > 0);
-    count--;
-    if (first > sizeM) {
-      first -= sizeM + 1;
+    counter--;
+    if (HEAD > MAXsize) {
+      HEAD -= MAXsize + 1;
     }
-    return arr[first++];
+    return items[HEAD++];
   }
 
-  char get() {
+  T& front() {
     assert(count > 0);
-    return arr[first].ch;
-  }
-
-  bool isFull() const {
-    return count == sizeM;
+    return items[HEAD];
   }
 
   bool isEmpty() const {
-    return count == 0;
+    return counter == 0;
+  }
+
+  bool isFull() const {
+    return counter == MAXsize;
   }
 
   ~TPQueue() {
-    delete[] arr;
+    delete[] items;
   }
 };
 
@@ -71,6 +71,8 @@ public:
 struct SYM {
   char ch;
   int prior;
+    char ch;
+    int prior;
 };
 
 #endif  // INCLUDE_TPQUEUE_H_
