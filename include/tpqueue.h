@@ -5,7 +5,7 @@
 
 template<typename T, int size>
 class TPQueue {
-private:
+ private:
   T* items;
   int MAXsize;
   int HEAD, TAIL;
@@ -71,8 +71,6 @@ private:
 struct SYM {
   char ch;
   int prior;
-    char ch;
-    int prior;
 };
 
 #endif  // INCLUDE_TPQUEUE_H_
