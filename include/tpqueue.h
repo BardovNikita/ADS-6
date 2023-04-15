@@ -5,6 +5,7 @@
 
 template<typename T, int size>
 class TPQueue {
+  // реализация шаблона очереди с приоритетом на кольцевом буфере
  private:
   T* items;
   int MAXsize;
@@ -64,8 +65,6 @@ class TPQueue {
   ~TPQueue() {
     delete[] items;
   }
-};
-
 };
 
 struct SYM {
